@@ -13,22 +13,50 @@ app.use(express.static("Public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout"), { useNewUrlParser: true}
 
-app.get("/api/workouts", ({body}, res)=>{
-    db.Workout.find()
-    .then(workout=>{
-        res.json(workout)
+app.get("/api/workouts", (req, res)=>{
+    db.Workout.find({})
+    .populate("Workout")
+    .then(data=>{
+        res.json(data)
     })
 })
 
-app.get("/exercise", (req, res)=>{
-    db.Exercise.create()
-    .then(dbExercise =>{
-        res.json(dbExercise)
+app.post("/api/workouts", ({body}, res)=>{
+    db.Workout.create(body)
+    .then(data=>{
+        res.json(data)
     })
-    .catch(err=>{
+})
+
+app.put("/api/workouts/:id", (req, res)=>{
+    db.Workout.update({ _id: req.params.id}, { $set: {}})
+    .then(data=>{
+        res.json(data)
+    })
+})
+
+// app.get("/api/workouts/range", (req, res)=>{
+//     db.Workout.find({})
+// })
+
+app.get("/exercise", (req, res)=>{
+    db.Workout.find({})
+    .populate("Workout")
+    .then(data=>{
+        res.json(data)
+    })
+    .catch(err =>{
         res.json(err)
     })
 })
+
+// app.get("/stats", (req, res)=>{
+//     db.Stats.find()
+//     .populate("Stats")
+//     .then(stats=>{
+//         res.json(stats)
+//     })
+// })
 
 
 

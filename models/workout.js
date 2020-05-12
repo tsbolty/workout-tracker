@@ -5,14 +5,12 @@ const WorkoutSchema = new Schema({
     name: {
         type: String,
         trim: true,
-        required: "Name of workout is required"
     },
     weight: {
         type: Number,
     },
     type: {
         type: String,
-        required: "Type is required"
     },
     sets: {
         type: Number
